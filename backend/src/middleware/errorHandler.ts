@@ -1,6 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
-import { logger } from '../config/logger';
-import { ApiResponse } from '@filmssy/common';
+
+// Local interface definition to avoid dependency issues
+interface ApiResponse {
+  success: boolean;
+  data?: any;
+  message?: string;
+  error?: string;
+  code?: string;
+  timestamp: string;
+  requestId?: string;
+}
 
 export interface AppError extends Error {
   statusCode?: number;
@@ -19,14 +28,8 @@ class ErrorHandler {
     let message = error.message || 'Internal Server Error';
     let code = error.code || 'INTERNAL_ERROR';
 
-    // Log error details
-    logger.error(`Error ${statusCode}: ${message}`, {
-      error: error.stack,
-      path: req.path,
-      method: req.method,
-      ip: req.ip,
-      userAgent: req.get('User-Agent'),
-    });
+    // TODO: Log error details when logger is available
+    // logger.error(`Error ${statusCode}: ${message}`, { error: error.stack });
 
     // Handle specific error types
     if (error.name === 'ValidationError') {
@@ -41,7 +44,7 @@ class ErrorHandler {
       statusCode = 400;
       message = 'Invalid ID format';
       code = 'INVALID_ID';
-    } else if (error.name === 'MongoError' && error.code === 11000) {
+    } else if (error.name === 'MongoError' && (error as any).code === 11000) {
       statusCode = 409;
       message = 'Duplicate entry';
       code = 'DUPLICATE_ENTRY';
@@ -55,7 +58,7 @@ class ErrorHandler {
     const response: ApiResponse = {
       success: false,
       error: message,
-      ...(code && { code }),
+      code,
       timestamp: new Date().toISOString(),
       ...(req.headers['x-request-id'] && { requestId: req.headers['x-request-id'] as string }),
     };

@@ -1,229 +1,273 @@
-// API Constants
-export const API_VERSION = 'v1';
-export const API_BASE_URL = `/api/${API_VERSION}`;
+// App configuration constants
+export const APP_CONFIG = {
+  NAME: 'Filmssy',
+  VERSION: '1.0.0',
+  DESCRIPTION: 'Premium Streaming Platform',
+  SUPPORT_EMAIL: 'support@filmssy.com',
+  CONTACT_EMAIL: 'contact@filmssy.com',
+  COMPANY_NAME: 'Filmssy Inc.',
+  COPYRIGHT_YEAR: new Date().getFullYear(),
+  SOCIAL_LINKS: {
+    TWITTER: 'https://twitter.com/filmssy',
+    FACEBOOK: 'https://facebook.com/filmssy',
+    INSTAGRAM: 'https://instagram.com/filmssy',
+    YOUTUBE: 'https://youtube.com/filmssy',
+    LINKEDIN: 'https://linkedin.com/company/filmssy',
+  },
+} as const;
 
-// Pagination defaults
-export const DEFAULT_PAGE_SIZE = 20;
-export const MAX_PAGE_SIZE = 100;
+// API Configuration
+export const API_CONFIG = {
+  BASE_URL: 'http://localhost:5000/api', // Will be configured at runtime
+  TIMEOUT: 30000, // 30 seconds
+  RETRY_ATTEMPTS: 3,
+  RETRY_DELAY: 1000, // 1 second
+  ENDPOINTS: {
+    AUTH: {
+      LOGIN: '/auth/login',
+      REGISTER: '/auth/register',
+      REFRESH: '/auth/refresh',
+      LOGOUT: '/auth/logout',
+      FORGOT_PASSWORD: '/auth/forgot-password',
+      RESET_PASSWORD: '/auth/reset-password',
+      VERIFY_EMAIL: '/auth/verify-email',
+      CHANGE_PASSWORD: '/auth/change-password',
+      PROFILE: '/auth/profile',
+    },
+    CONTENT: {
+      MOVIES: '/content/movies',
+      TV_SHOWS: '/content/tv-shows',
+      SEARCH: '/content/search',
+      TRENDING: '/content/trending',
+      FEATURED: '/content/featured',
+      GENRES: '/content/genres',
+      COLLECTIONS: '/content/collections',
+      RECOMMENDATIONS: '/content/recommendations',
+    },
+    USER: {
+      PROFILE: '/user/profile',
+      PREFERENCES: '/user/preferences',
+      WATCHLIST: '/user/watchlist',
+      HISTORY: '/user/history',
+      RATINGS: '/user/ratings',
+      SUBSCRIPTIONS: '/user/subscriptions',
+    },
+    SUBSCRIPTION: {
+      PLANS: '/subscriptions/plans',
+      CREATE: '/subscriptions/create',
+      CANCEL: '/subscriptions/cancel',
+      UPDATE: '/subscriptions/update-payment',
+      INVOICE: '/subscriptions/invoices',
+      COUPONS: '/subscriptions/coupons',
+    },
+    ADMIN: {
+      USERS: '/admin/users',
+      CONTENT: '/admin/content',
+      ANALYTICS: '/admin/analytics',
+      SYSTEM: '/admin/system',
+      LOGS: '/admin/logs',
+    },
+  },
+} as const;
 
-// JWT Token expiry
-export const ACCESS_TOKEN_EXPIRY = '15m';
-export const REFRESH_TOKEN_EXPIRY = '7d';
-export const EMAIL_VERIFICATION_EXPIRY = '24h';
-export const PASSWORD_RESET_EXPIRY = '1h';
-
-// Rate limiting
-export const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
-export const RATE_LIMIT_MAX_REQUESTS = 100;
-export const LOGIN_RATE_LIMIT = 5; // per 15 minutes
-export const FORGOT_PASSWORD_RATE_LIMIT = 3; // per hour
-
-// File upload limits
-export const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
-export const MAX_VIDEO_SIZE = 5 * 1024 * 1024 * 1024; // 5GB
-export const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
-export const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/avi', 'video/mov'];
-export const ALLOWED_SUBTITLE_TYPES = ['text/vtt', 'application/x-subrip'];
+// Pagination constants
+export const PAGINATION = {
+  DEFAULT_PAGE: 1,
+  DEFAULT_LIMIT: 20,
+  MAX_LIMIT: 100,
+  MIN_LIMIT: 1,
+} as const;
 
 // Content constants
-export const VIDEO_QUALITIES = ['480p', '720p', '1080p', '2160p'] as const;
-export const SUPPORTED_LANGUAGES = [
-  'en', 'es', 'fr', 'de', 'it', 'pt', 'ru', 'ja', 'ko', 'zh',
-  'hi', 'ar', 'tr', 'nl', 'sv', 'da', 'no', 'fi', 'pl', 'cs'
-] as const;
-
-export const SUPPORTED_CURRENCIES = [
-  'USD', 'EUR', 'GBP', 'INR', 'JPY', 'KRW', 'CNY', 'BRL', 'MXN', 'AUD'
-] as const;
-
-// Streaming constants
-export const HLS_SEGMENT_DURATION = 6; // seconds
-export const HLS_PLAYLIST_TYPE = 'VOD';
-export const DEFAULT_BITRATES = [
-  { quality: '480p', bitrate: 1000000 },   // 1 Mbps
-  { quality: '720p', bitrate: 2500000 },   // 2.5 Mbps
-  { quality: '1080p', bitrate: 5000000 },  // 5 Mbps
-  { quality: '2160p', bitrate: 15000000 }  // 15 Mbps
-];
-
-// Cache durations (in seconds)
-export const CACHE_DURATIONS = {
-  SHORT: 5 * 60,        // 5 minutes
-  MEDIUM: 30 * 60,      // 30 minutes
-  LONG: 2 * 60 * 60,    // 2 hours
-  VERY_LONG: 24 * 60 * 60  // 24 hours
-};
-
-// Email templates
-export const EMAIL_TEMPLATES = {
-  WELCOME: 'welcome',
-  EMAIL_VERIFICATION: 'email-verification',
-  PASSWORD_RESET: 'password-reset',
-  SUBSCRIPTION_CONFIRMATION: 'subscription-confirmation',
-  SUBSCRIPTION_RENEWAL: 'subscription-renewal',
-  SUBSCRIPTION_CANCELLATION: 'subscription-cancellation',
-  PAYMENT_FAILED: 'payment-failed',
-  NEW_CONTENT_ALERT: 'new-content-alert'
+export const CONTENT_CONSTANTS = {
+  VIDEO_QUALITIES: ['480p', '720p', '1080p', '2160p'] as const,
+  VIDEO_FORMATS: ['hls', 'dash', 'mp4'] as const,
+  SUBTITLE_FORMATS: ['vtt', 'srt', 'ass'] as const,
+  IMAGE_FORMATS: ['jpg', 'jpeg', 'png', 'webp'] as const,
+  MAX_TITLE_LENGTH: 200,
+  MAX_DESCRIPTION_LENGTH: 2000,
+  MAX_SYNOPSIS_LENGTH: 500,
+  MIN_DURATION: 1, // 1 minute
+  MAX_DURATION: 600, // 10 hours in minutes
+  MAX_FILE_SIZE: 10 * 1024 * 1024 * 1024, // 10GB in bytes
+  THUMBNAIL_SIZES: {
+    SMALL: { width: 300, height: 450 },
+    MEDIUM: { width: 500, height: 750 },
+    LARGE: { width: 800, height: 1200 },
+  },
+  BACKDROP_SIZES: {
+    SMALL: { width: 780, height: 439 },
+    MEDIUM: { width: 1280, height: 720 },
+    LARGE: { width: 1920, height: 1080 },
+  },
 } as const;
 
-// Notification types
-export const NOTIFICATION_TYPES = {
-  NEW_EPISODE: 'new_episode',
-  NEW_SEASON: 'new_season',
-  NEW_MOVIE: 'new_movie',
-  SUBSCRIPTION_EXPIRY: 'subscription_expiry',
-  PAYMENT_SUCCESS: 'payment_success',
-  PAYMENT_FAILED: 'payment_failed',
-  ACCOUNT_SECURITY: 'account_security',
-  RECOMMENDATION: 'recommendation'
+// User constants
+export const USER_CONSTANTS = {
+  MIN_PASSWORD_LENGTH: 8,
+  MAX_PASSWORD_LENGTH: 128,
+  MIN_NAME_LENGTH: 2,
+  MAX_NAME_LENGTH: 50,
+  MAX_LOGIN_ATTEMPTS: 5,
+  ACCOUNT_LOCK_TIME: 2 * 60 * 60 * 1000, // 2 hours in milliseconds
+  TOKEN_EXPIRY: {
+    ACCESS: 15 * 60, // 15 minutes in seconds
+    REFRESH: 7 * 24 * 60 * 60, // 7 days in seconds
+    RESET: 1 * 60 * 60, // 1 hour in seconds
+    VERIFICATION: 24 * 60 * 60, // 24 hours in seconds
+  },
+  SESSION_TIMEOUT: 30 * 60 * 1000, // 30 minutes in milliseconds
+  MAX_SESSIONS_PER_USER: 5,
 } as const;
 
-// Social media platforms
-export const SOCIAL_PLATFORMS = {
-  FACEBOOK: 'facebook',
-  TWITTER: 'twitter',
-  INSTAGRAM: 'instagram',
-  WHATSAPP: 'whatsapp',
-  TELEGRAM: 'telegram',
-  LINKEDIN: 'linkedin'
+// Subscription constants
+export const SUBSCRIPTION_CONSTANTS = {
+  TRIAL_PERIOD_DAYS: 7,
+  GRACE_PERIOD_DAYS: 3,
+  MAX_DEVICES: {
+    BASIC: 1,
+    STANDARD: 2,
+    PREMIUM: 4,
+    FAMILY: 6,
+  },
+  MAX_DOWNLOADS: {
+    BASIC: 5,
+    STANDARD: 10,
+    PREMIUM: 20,
+    FAMILY: 50,
+  },
+  SUPPORTED_CURRENCIES: ['USD', 'EUR', 'GBP', 'INR', 'CAD', 'AUD'] as const,
+  PAYMENT_METHODS: ['stripe', 'razorpay', 'paypal', 'apple_pay', 'google_pay'] as const,
 } as const;
 
-// Device types
-export const DEVICE_TYPES = {
-  MOBILE: 'mobile',
-  TABLET: 'tablet',
-  DESKTOP: 'desktop',
-  TV: 'tv',
-  GAMING_CONSOLE: 'gaming_console'
+// Cache constants
+export const CACHE_CONSTANTS = {
+  TTL: {
+    SHORT: 5 * 60, // 5 minutes
+    MEDIUM: 30 * 60, // 30 minutes
+    LONG: 2 * 60 * 60, // 2 hours
+    EXTRA_LONG: 24 * 60 * 60, // 24 hours
+  },
+  KEYS: {
+    USER_PROFILE: 'user_profile:',
+    CONTENT_DETAILS: 'content:',
+    TRENDING_CONTENT: 'trending:',
+    FEATURED_CONTENT: 'featured:',
+    GENRES: 'genres',
+    SUBSCRIPTION_PLANS: 'subscription_plans',
+    SYSTEM_CONFIG: 'system_config',
+  },
 } as const;
 
-// Player events
-export const PLAYER_EVENTS = {
-  PLAY: 'play',
-  PAUSE: 'pause',
-  SEEK: 'seek',
-  VOLUME_CHANGE: 'volume_change',
-  QUALITY_CHANGE: 'quality_change',
-  FULLSCREEN_ENTER: 'fullscreen_enter',
-  FULLSCREEN_EXIT: 'fullscreen_exit',
-  SUBTITLE_CHANGE: 'subtitle_change',
-  AUDIO_CHANGE: 'audio_change',
-  PLAYBACK_RATE_CHANGE: 'playback_rate_change',
-  BUFFER_START: 'buffer_start',
-  BUFFER_END: 'buffer_end',
-  ERROR: 'error',
-  ENDED: 'ended'
-} as const;
-
-// Analytics events
-export const ANALYTICS_EVENTS = {
-  PAGE_VIEW: 'page_view',
-  CONTENT_VIEW: 'content_view',
-  CONTENT_PLAY: 'content_play',
-  CONTENT_PAUSE: 'content_pause',
-  CONTENT_COMPLETE: 'content_complete',
-  SEARCH: 'search',
-  SIGNUP: 'signup',
-  LOGIN: 'login',
-  LOGOUT: 'logout',
-  SUBSCRIPTION_START: 'subscription_start',
-  SUBSCRIPTION_CANCEL: 'subscription_cancel',
-  PAYMENT_SUCCESS: 'payment_success',
-  PAYMENT_FAILED: 'payment_failed',
-  CONTENT_SHARE: 'content_share',
-  CONTENT_LIKE: 'content_like',
-  CONTENT_DOWNLOAD: 'content_download',
-  PROFILE_UPDATE: 'profile_update'
+// File upload constants
+export const UPLOAD_CONSTANTS = {
+  MAX_FILE_SIZE: {
+    IMAGE: 5 * 1024 * 1024, // 5MB
+    VIDEO: 10 * 1024 * 1024 * 1024, // 10GB
+    SUBTITLE: 1 * 1024 * 1024, // 1MB
+    DOCUMENT: 10 * 1024 * 1024, // 10MB
+  },
+  ALLOWED_MIME_TYPES: {
+    IMAGE: ['image/jpeg', 'image/png', 'image/webp'],
+    VIDEO: ['video/mp4', 'video/webm', 'video/quicktime'],
+    SUBTITLE: ['text/vtt', 'text/srt', 'application/x-subrip'],
+    DOCUMENT: ['application/pdf', 'text/plain'],
+  },
+  UPLOAD_CHUNK_SIZE: 5 * 1024 * 1024, // 5MB chunks
 } as const;
 
 // Error codes
 export const ERROR_CODES = {
   // Authentication errors
   INVALID_CREDENTIALS: 'INVALID_CREDENTIALS',
-  TOKEN_EXPIRED: 'TOKEN_EXPIRED',
-  TOKEN_INVALID: 'TOKEN_INVALID',
-  ACCOUNT_DISABLED: 'ACCOUNT_DISABLED',
+  ACCOUNT_LOCKED: 'ACCOUNT_LOCKED',
   EMAIL_NOT_VERIFIED: 'EMAIL_NOT_VERIFIED',
-  
-  // Authorization errors
+  INVALID_TOKEN: 'INVALID_TOKEN',
+  TOKEN_EXPIRED: 'TOKEN_EXPIRED',
   INSUFFICIENT_PERMISSIONS: 'INSUFFICIENT_PERMISSIONS',
-  ACCESS_DENIED: 'ACCESS_DENIED',
-  
+
   // Validation errors
   VALIDATION_ERROR: 'VALIDATION_ERROR',
-  REQUIRED_FIELD_MISSING: 'REQUIRED_FIELD_MISSING',
-  INVALID_FORMAT: 'INVALID_FORMAT',
-  
-  // Resource errors
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
-  RESOURCE_ALREADY_EXISTS: 'RESOURCE_ALREADY_EXISTS',
-  RESOURCE_CONFLICT: 'RESOURCE_CONFLICT',
-  
-  // Rate limiting
-  RATE_LIMIT_EXCEEDED: 'RATE_LIMIT_EXCEEDED',
-  
+  INVALID_INPUT: 'INVALID_INPUT',
+  MISSING_REQUIRED_FIELD: 'MISSING_REQUIRED_FIELD',
+  INVALID_EMAIL_FORMAT: 'INVALID_EMAIL_FORMAT',
+  PASSWORD_TOO_WEAK: 'PASSWORD_TOO_WEAK',
+
+  // Content errors
+  CONTENT_NOT_FOUND: 'CONTENT_NOT_FOUND',
+  CONTENT_NOT_AVAILABLE: 'CONTENT_NOT_AVAILABLE',
+  INVALID_CONTENT_TYPE: 'INVALID_CONTENT_TYPE',
+  UPLOAD_FAILED: 'UPLOAD_FAILED',
+  PROCESSING_FAILED: 'PROCESSING_FAILED',
+
   // Subscription errors
   SUBSCRIPTION_REQUIRED: 'SUBSCRIPTION_REQUIRED',
   SUBSCRIPTION_EXPIRED: 'SUBSCRIPTION_EXPIRED',
-  PAYMENT_REQUIRED: 'PAYMENT_REQUIRED',
+  PLAN_NOT_FOUND: 'PLAN_NOT_FOUND',
   PAYMENT_FAILED: 'PAYMENT_FAILED',
-  
-  // Content errors
-  CONTENT_NOT_AVAILABLE: 'CONTENT_NOT_AVAILABLE',
-  CONTENT_GEO_BLOCKED: 'CONTENT_GEO_BLOCKED',
-  CONTENT_PROCESSING: 'CONTENT_PROCESSING',
-  
-  // Upload errors
-  FILE_TOO_LARGE: 'FILE_TOO_LARGE',
-  INVALID_FILE_TYPE: 'INVALID_FILE_TYPE',
-  UPLOAD_FAILED: 'UPLOAD_FAILED',
-  
+  INVALID_COUPON: 'INVALID_COUPON',
+
   // System errors
-  INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
   SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-  DATABASE_ERROR: 'DATABASE_ERROR',
-  EXTERNAL_SERVICE_ERROR: 'EXTERNAL_SERVICE_ERROR'
+  RATE_LIMIT_EXCEEDED: 'RATE_LIMIT_EXCEEDED',
+  MAINTENANCE_MODE: 'MAINTENANCE_MODE',
 } as const;
 
-// HTTP Status codes
-export const HTTP_STATUS = {
-  OK: 200,
-  CREATED: 201,
-  NO_CONTENT: 204,
-  BAD_REQUEST: 400,
-  UNAUTHORIZED: 401,
-  FORBIDDEN: 403,
-  NOT_FOUND: 404,
-  CONFLICT: 409,
-  UNPROCESSABLE_ENTITY: 422,
-  TOO_MANY_REQUESTS: 429,
-  INTERNAL_SERVER_ERROR: 500,
-  BAD_GATEWAY: 502,
-  SERVICE_UNAVAILABLE: 503
+// Rate limiting
+export const RATE_LIMITS = {
+  AUTH: {
+    LOGIN: { windowMs: 15 * 60 * 1000, max: 5 }, // 5 attempts per 15 minutes
+    REGISTER: { windowMs: 60 * 60 * 1000, max: 3 }, // 3 attempts per hour
+    FORGOT_PASSWORD: { windowMs: 60 * 60 * 1000, max: 3 }, // 3 attempts per hour
+  },
+  API: {
+    GENERAL: { windowMs: 15 * 60 * 1000, max: 100 }, // 100 requests per 15 minutes
+    SEARCH: { windowMs: 60 * 1000, max: 10 }, // 10 searches per minute
+    UPLOAD: { windowMs: 60 * 60 * 1000, max: 5 }, // 5 uploads per hour
+  },
 } as const;
 
-// Regex patterns
-export const REGEX_PATTERNS = {
-  EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  PASSWORD: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-  PHONE: /^\+?[\d\s-()]+$/,
-  SLUG: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-  URL: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/,
-  YOUTUBE_URL: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/,
-  TMDB_ID: /^\d+$/,
-  IMDB_ID: /^tt\d{7,8}$/
+// Notification constants
+export const NOTIFICATION_CONSTANTS = {
+  TYPES: ['info', 'success', 'warning', 'error'] as const,
+  CATEGORIES: ['system', 'content', 'subscription', 'security', 'marketing'] as const,
+  DEFAULT_EXPIRY: 30 * 24 * 60 * 60 * 1000, // 30 days
+  MAX_NOTIFICATIONS_PER_USER: 50,
 } as const;
 
-// Feature flags
-export const FEATURE_FLAGS = {
-  ENABLE_DOWNLOADS: 'enable_downloads',
-  ENABLE_OFFLINE_MODE: 'enable_offline_mode',
-  ENABLE_SOCIAL_FEATURES: 'enable_social_features',
-  ENABLE_RECOMMENDATIONS: 'enable_recommendations',
-  ENABLE_ANALYTICS: 'enable_analytics',
-  ENABLE_PUSH_NOTIFICATIONS: 'enable_push_notifications',
-  ENABLE_EMAIL_NOTIFICATIONS: 'enable_email_notifications',
-  ENABLE_LIVE_STREAMING: 'enable_live_streaming',
-  ENABLE_COMMENTS: 'enable_comments',
-  ENABLE_RATINGS: 'enable_ratings'
+// Analytics constants
+export const ANALYTICS_CONSTANTS = {
+  EVENTS: {
+    CONTENT_VIEW: 'content_view',
+    CONTENT_PLAY: 'content_play',
+    CONTENT_PAUSE: 'content_pause',
+    CONTENT_COMPLETE: 'content_complete',
+    SEARCH: 'search',
+    SUBSCRIPTION_CREATED: 'subscription_created',
+    SUBSCRIPTION_CANCELLED: 'subscription_cancelled',
+    USER_REGISTERED: 'user_registered',
+    USER_LOGIN: 'user_login',
+  },
+  RETENTION_PERIOD: 365, // days
+  BATCH_SIZE: 100,
+} as const;
+
+// Environment constants
+export const ENV = {
+  DEVELOPMENT: 'development',
+  STAGING: 'staging',
+  PRODUCTION: 'production',
+  TEST: 'test',
+} as const;
+
+// Security constants
+export const SECURITY_CONSTANTS = {
+  BCRYPT_ROUNDS: 12,
+  JWT_ALGORITHM: 'HS256' as const,
+  PASSWORD_RESET_TOKEN_LENGTH: 32,
+  EMAIL_VERIFICATION_TOKEN_LENGTH: 32,
+  SESSION_SECRET_LENGTH: 64,
+  ENCRYPTION_KEY_LENGTH: 32,
+  CORS_MAX_AGE: 24 * 60 * 60, // 24 hours
 } as const;

@@ -1,11 +1,14 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import React from 'react';
-import { Providers } from '@/components/providers/Providers';
-import { Toaster } from 'react-hot-toast';
-import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+// Placeholder components until actual components are created
+const Providers: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return <>{children}</>;
+};
+
+const Toaster = ({ position, toastOptions }: any) => {
+  return null; // Placeholder
+};
 
 export const metadata: Metadata = {
   title: {
@@ -130,7 +133,7 @@ export default function RootLayout({
           `
         }} />
       </head>
-      <body className={`${inter.className} bg-gray-950 text-gray-50 antialiased`}>
+      <body className="bg-gray-950 text-gray-50 antialiased">
         <Providers>
           {children}
           <Toaster

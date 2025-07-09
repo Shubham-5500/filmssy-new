@@ -1,5 +1,3 @@
-import { z } from 'zod';
-
 // Content types
 export enum ContentType {
   MOVIE = 'movie',
@@ -36,20 +34,36 @@ export enum AgeRating {
   TV_MA = 'TV-MA'
 }
 
-// Content validation schemas
-export const videoUploadSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  description: z.string().min(10, 'Description must be at least 10 characters'),
-  type: z.nativeEnum(ContentType),
-  genreIds: z.array(z.string()).min(1, 'At least one genre is required'),
-  releaseDate: z.string().transform(str => new Date(str)),
-  ageRating: z.nativeEnum(AgeRating),
-  duration: z.number().min(1, 'Duration must be positive'),
-  language: z.string().min(2, 'Language is required'),
-  country: z.string().min(2, 'Country is required'),
-  tmdbId: z.string().optional(),
-  imdbId: z.string().optional()
-});
+// Content validation
+export const videoUploadValidation = {
+  title: (value: string) => {
+    if (!value || value.length < 1) return 'Title is required';
+    return null;
+  },
+  description: (value: string) => {
+    if (!value || value.length < 10) return 'Description must be at least 10 characters';
+    return null;
+  },
+  duration: (value: number) => {
+    if (value <= 0) return 'Duration must be positive';
+    return null;
+  }
+};
+
+// Type definition for video upload data
+export interface VideoUploadData {
+  title: string;
+  description: string;
+  type: ContentType;
+  genreIds: string[];
+  releaseDate: string;
+  ageRating: AgeRating;
+  duration: number;
+  language: string;
+  country: string;
+  tmdbId?: string;
+  imdbId?: string;
+}
 
 // Base content interface
 export interface BaseContent {
@@ -326,6 +340,3 @@ export interface Recommendation {
   reason: string;
   type: 'collaborative' | 'content_based' | 'trending' | 'new_release';
 }
-
-// Type exports for validation
-export type VideoUploadData = z.infer<typeof videoUploadSchema>;

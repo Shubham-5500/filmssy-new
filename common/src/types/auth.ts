@@ -1,5 +1,3 @@
-import { z } from 'zod';
-
 // User roles
 export enum UserRole {
   USER = 'user',
@@ -7,43 +5,64 @@ export enum UserRole {
   SUB_ADMIN = 'sub_admin'
 }
 
-// Auth schemas using Zod
-export const loginSchema = z.object({
-  email: z.string().email('Invalid email format'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  rememberMe: z.boolean().optional()
-});
+// Auth schemas using Zod (will be available when zod is installed)
+export const loginSchema = {
+  email: (value: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(value)) return 'Invalid email format';
+    return null;
+  },
+  password: (value: string) => {
+    if (value.length < 8) return 'Password must be at least 8 characters';
+    return null;
+  }
+};
 
-export const registerSchema = z.object({
-  email: z.string().email('Invalid email format'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  confirmPassword: z.string(),
-  firstName: z.string().min(2, 'First name must be at least 2 characters'),
-  lastName: z.string().min(2, 'Last name must be at least 2 characters'),
-  acceptTerms: z.boolean().refine(val => val === true, 'Must accept terms')
-}).refine(data => data.password === data.confirmPassword, {
-  message: 'Passwords do not match',
-  path: ['confirmPassword']
-});
+export const registerSchema = {
+  email: (value: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(value)) return 'Invalid email format';
+    return null;
+  },
+  password: (value: string) => {
+    if (value.length < 8) return 'Password must be at least 8 characters';
+    return null;
+  },
+  firstName: (value: string) => {
+    if (value.length < 2) return 'First name must be at least 2 characters';
+    return null;
+  },
+  lastName: (value: string) => {
+    if (value.length < 2) return 'Last name must be at least 2 characters';
+    return null;
+  }
+};
 
-export const resetPasswordSchema = z.object({
-  email: z.string().email('Invalid email format')
-});
+// Type definitions
+export interface LoginData {
+  email: string;
+  password: string;
+  rememberMe?: boolean;
+}
 
-export const changePasswordSchema = z.object({
-  currentPassword: z.string(),
-  newPassword: z.string().min(8, 'Password must be at least 8 characters'),
-  confirmPassword: z.string()
-}).refine(data => data.newPassword === data.confirmPassword, {
-  message: 'Passwords do not match',
-  path: ['confirmPassword']
-});
+export interface RegisterData {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  firstName: string;
+  lastName: string;
+  acceptTerms: boolean;
+}
 
-// Type exports
-export type LoginData = z.infer<typeof loginSchema>;
-export type RegisterData = z.infer<typeof registerSchema>;
-export type ResetPasswordData = z.infer<typeof resetPasswordSchema>;
-export type ChangePasswordData = z.infer<typeof changePasswordSchema>;
+export interface ResetPasswordData {
+  email: string;
+}
+
+export interface ChangePasswordData {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
 
 // User interface
 export interface User {

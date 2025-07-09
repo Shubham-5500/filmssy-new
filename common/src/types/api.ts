@@ -152,7 +152,7 @@ export interface FileUpload {
   encoding: string;
   mimetype: string;
   size: number;
-  buffer?: Buffer;
+  data?: any; // File data - type depends on environment
   filename?: string;
   path?: string;
 }

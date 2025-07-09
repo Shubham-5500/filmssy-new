@@ -1,8 +1,33 @@
 // Export all types
 export * from './types/auth';
 export * from './types/content';
-export * from './types/subscription';
 export * from './types/api';
+
+// Export subscription types with renamed conflicting exports
+export {
+  PlanInterval,
+  PlanStatus,
+  SubscriptionStatus,
+  PaymentStatus,
+  PaymentMethod,
+  SubscriptionPlan,
+  PlanPrice,
+  UserSubscription as UserSubscriptionDetail,
+  PaymentTransaction,
+  Coupon,
+  CouponUsage,
+  CreateSubscriptionData,
+  UpdatePaymentMethodData,
+  ApplyCouponData,
+  GiftSubscription,
+  RevenueMetrics,
+  PlanRevenue,
+  BillingAddress,
+  TaxConfiguration,
+  subscriptionValidation,
+  paymentMethodValidation,
+  couponValidation
+} from './types/subscription';
 
 // Export all constants
 export * from './constants';
@@ -52,31 +77,6 @@ export const generateRandomString = (length: number): string => {
   return result;
 };
 
-export const debounce = <T extends (...args: any[]) => any>(
-  func: T,
-  wait: number
-): (...args: Parameters<T>) => void => {
-  let timeout: NodeJS.Timeout;
-  return (...args: Parameters<T>) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), wait);
-  };
-};
-
-export const throttle = <T extends (...args: any[]) => any>(
-  func: T,
-  limit: number
-): (...args: Parameters<T>) => void => {
-  let inThrottle: boolean;
-  return (...args: Parameters<T>) => {
-    if (!inThrottle) {
-      func(...args);
-      inThrottle = true;
-      setTimeout(() => (inThrottle = false), limit);
-    }
-  };
-};
-
 export const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
@@ -118,3 +118,6 @@ export const getAgeRatingColor = (rating: string): string => {
   };
   return colorMap[rating] || '#6b7280';
 };
+
+// Debounce and throttle functions will be implemented in the specific environments (web/mobile)
+// where setTimeout and clearTimeout are available

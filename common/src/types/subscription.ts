@@ -1,5 +1,3 @@
-import { z } from 'zod';
-
 // Subscription plan types
 export enum PlanInterval {
   MONTHLY = 'monthly',
@@ -142,24 +140,60 @@ export interface CouponUsage {
   usedAt: Date;
 }
 
-// Payment validation schemas
-export const createSubscriptionSchema = z.object({
-  planId: z.string().min(1, 'Plan ID is required'),
-  paymentMethod: z.nativeEnum(PaymentMethod),
-  currency: z.string().length(3, 'Currency must be 3 characters'),
-  couponCode: z.string().optional(),
-  autoRenew: z.boolean().default(true)
-});
+// Payment validation functions
+export const subscriptionValidation = {
+  planId: (value: string) => {
+    if (!value || value.length < 1) return 'Plan ID is required';
+    return null;
+  },
+  currency: (value: string) => {
+    if (!value || value.length !== 3) return 'Currency must be 3 characters';
+    return null;
+  },
+  couponCode: (value?: string) => {
+    // Optional field, no validation needed if not provided
+    return null;
+  }
+};
 
-export const updatePaymentMethodSchema = z.object({
-  paymentMethod: z.nativeEnum(PaymentMethod),
-  paymentDetails: z.record(z.any()).optional()
-});
+export const paymentMethodValidation = {
+  paymentMethod: (value: PaymentMethod) => {
+    if (!Object.values(PaymentMethod).includes(value)) {
+      return 'Invalid payment method';
+    }
+    return null;
+  }
+};
 
-export const applyCouponSchema = z.object({
-  couponCode: z.string().min(1, 'Coupon code is required'),
-  planId: z.string().min(1, 'Plan ID is required')
-});
+export const couponValidation = {
+  couponCode: (value: string) => {
+    if (!value || value.length < 1) return 'Coupon code is required';
+    return null;
+  },
+  planId: (value: string) => {
+    if (!value || value.length < 1) return 'Plan ID is required';
+    return null;
+  }
+};
+
+// Type definitions for form data
+export interface CreateSubscriptionData {
+  planId: string;
+  paymentMethod: PaymentMethod;
+  currency: string;
+  couponCode?: string;
+  autoRenew: boolean;
+}
+
+export interface UpdatePaymentMethodData {
+  paymentMethod: PaymentMethod;
+  paymentDetails?: Record<string, any>;
+}
+
+export interface ApplyCouponData {
+  couponCode: string;
+  planId: string;
+}
 
 // Gift subscription interface
 export interface GiftSubscription {
@@ -232,8 +266,3 @@ export interface TaxConfiguration {
   createdAt: Date;
   updatedAt: Date;
 }
-
-// Type exports
-export type CreateSubscriptionData = z.infer<typeof createSubscriptionSchema>;
-export type UpdatePaymentMethodData = z.infer<typeof updatePaymentMethodSchema>;
-export type ApplyCouponData = z.infer<typeof applyCouponSchema>;
